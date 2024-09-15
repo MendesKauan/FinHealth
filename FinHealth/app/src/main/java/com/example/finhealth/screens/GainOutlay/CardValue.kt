@@ -16,7 +16,7 @@ import androidx.compose.ui.unit.dp
 
 
 
-@Preview
+
 @Composable
 fun CardValue(gainValue: Double) {
     Column {
