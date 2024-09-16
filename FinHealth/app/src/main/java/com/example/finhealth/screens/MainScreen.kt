@@ -1,5 +1,6 @@
 package com.example.finhealth.screens
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -33,16 +34,21 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
 import com.example.finhealth.R
 import com.example.finhealth.screens.GainOutlay.CardValue
-
+import com.example.finhealth.screens.GainOutlay.ModalRegisterGainOutlay
+import androidx.navigation.NavHost as NavHost1
 
 @Composable
-fun ScreenContent(modifier: Modifier) {
+fun ScreenContent(modifier: Modifier, navController: NavHostController) {
     Column(
         modifier = modifier
             .fillMaxSize()
-            .padding(top = 80.dp),
+            .padding(top = 50.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         CardValue(gainValue = 1.000)
@@ -50,12 +56,13 @@ fun ScreenContent(modifier: Modifier) {
 }
 
 
+
+
 var name : String = "Kauan"
 
 @OptIn(ExperimentalMaterial3Api::class)
-@Preview
 @Composable
-fun MainScreen() {
+fun MainScreen(navController: NavHostController = rememberNavController()) {
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior(rememberTopAppBarState())
 
     Scaffold(
@@ -91,7 +98,10 @@ fun MainScreen() {
                 scrollBehavior = scrollBehavior,
             )
         },
-        content = { p -> ScreenContent(Modifier.padding(p)) },
+        content = { paddingValues -> ScreenContent(
+            Modifier.padding(paddingValues),
+            navController = navController )
+                  },
         bottomBar = {
             BottomAppBar(
                 actions = {
@@ -119,7 +129,7 @@ fun MainScreen() {
                         }
 
                         FloatingActionButton(
-                            onClick = { /* do something */ },
+                            onClick = { navController.navigate(Routes.ModarRegisterValues) },
                             containerColor = BottomAppBarDefaults.bottomAppBarFabColor,
                             elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation()
                         ) {
@@ -132,6 +142,26 @@ fun MainScreen() {
     )
 }
 
+object Routes {
+    const val MainScreen = "main"
+    const val ModarRegisterValues = "modal_register_values"
+}
 
 
+@Composable
+fun NavigationScreens (navController: NavHostController) {
+    NavHost(navController, startDestination = Routes.MainScreen) {
+        composable(Routes.MainScreen) { MainScreen(navController) }
+        composable(Routes.ModarRegisterValues) { ModalRegisterGainOutlay() }
+    }
+}
 
+@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
+@Preview
+@Composable
+fun PreviewMainScreen() {
+    val navController = rememberNavController()
+    Scaffold {
+        NavigationScreens(navController)
+    }
+}
