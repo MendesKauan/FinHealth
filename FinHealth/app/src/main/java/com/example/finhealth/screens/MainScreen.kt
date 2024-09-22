@@ -39,31 +39,27 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.finhealth.R
+import com.example.finhealth.routes.NavRoutes
 import com.example.finhealth.screens.GainOutlay.CardValue
 import com.example.finhealth.screens.GainOutlay.ModalRegisterGainOutlay
+import com.example.finhealth.utils.navBar
 import androidx.navigation.NavHost as NavHost1
 
-@Composable
-fun ScreenContent(modifier: Modifier, navController: NavHostController) {
-    Column(
-        modifier = modifier
-            .fillMaxSize()
-            .padding(top = 50.dp),
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        CardValue(gainValue = 1.000)
-    }
-}
+
+
 
 
 
 
 var name : String = "Kauan"
 
+@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @OptIn(ExperimentalMaterial3Api::class)
+@Preview
 @Composable
-fun MainScreen(navController: NavHostController = rememberNavController()) {
+fun MainScreen() {
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior(rememberTopAppBarState())
+    val navController = rememberNavController()
 
     Scaffold(
         topBar = {
@@ -98,70 +94,15 @@ fun MainScreen(navController: NavHostController = rememberNavController()) {
                 scrollBehavior = scrollBehavior,
             )
         },
-        content = { paddingValues -> ScreenContent(
-            Modifier.padding(paddingValues),
-            navController = navController )
+        content = {
+            NavRoutes(navController)
                   },
         bottomBar = {
-            BottomAppBar(
-                actions = {
-
-                },
-                floatingActionButton = {
-                    Row(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .fillMaxHeight()
-                            .padding(bottom = 10.dp),
-                        horizontalArrangement = Arrangement.SpaceEvenly,
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        FloatingActionButton(
-                            onClick = { /* do something */ },
-                            containerColor = BottomAppBarDefaults.bottomAppBarFabColor,
-                            elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation()
-                        ) {
-                            Icon(
-                                painter = painterResource(id = R.drawable.icon_paid),
-                                contentDescription = "Money icon",
-                                modifier = Modifier.size(30.dp)
-                            )
-                        }
-
-                        FloatingActionButton(
-                            onClick = { navController.navigate(Routes.ModarRegisterValues) },
-                            containerColor = BottomAppBarDefaults.bottomAppBarFabColor,
-                            elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation()
-                        ) {
-                            Icon(Icons.Filled.Add, "Localized description")
-                        }
-                    }
-                }
-            )
+            navBar(navController)
         }
     )
 }
 
-object Routes {
-    const val MainScreen = "main"
-    const val ModarRegisterValues = "modal_register_values"
-}
 
 
-@Composable
-fun NavigationScreens (navController: NavHostController) {
-    NavHost(navController, startDestination = Routes.MainScreen) {
-        composable(Routes.MainScreen) { MainScreen(navController) }
-        composable(Routes.ModarRegisterValues) { ModalRegisterGainOutlay() }
-    }
-}
 
-@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
-@Preview
-@Composable
-fun PreviewMainScreen() {
-    val navController = rememberNavController()
-    Scaffold {
-        NavigationScreens(navController)
-    }
-}

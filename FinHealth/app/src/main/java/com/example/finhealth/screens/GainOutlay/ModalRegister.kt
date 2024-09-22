@@ -42,20 +42,14 @@ import androidx.compose.ui.unit.dp
 fun ModalRegisterGainOutlay() {
     Scaffold(
         content = {
-            Box(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .background(Color.Black.copy(alpha = 0.6f))
-            ) {
-                Box(
-                    modifier = Modifier
+            Box( modifier = Modifier
                         .fillMaxSize()
                         .padding(16.dp),
                     contentAlignment = Alignment.Center
                 ) {
                     CardRegisterGainOutlay()
                 }
-            }
+
         }
     )
 }
@@ -68,13 +62,9 @@ fun CardRegisterGainOutlay() {
     val selectedState = remember { mutableStateOf("ganho") }
     val inputValue = remember { mutableStateOf("") }
 
-    ElevatedCard(
-        modifier = Modifier
-            .size(width = 300.dp, height = 250.dp)
 
-    ) {
         Box (
-            modifier = Modifier.fillMaxSize(),
+            modifier = Modifier.size(width = 300.dp, height = 250.dp),
             contentAlignment = Alignment.TopCenter
         ){
             Text(
@@ -127,7 +117,7 @@ fun CardRegisterGainOutlay() {
 
             }
         }
-    }
+
 }
 
 
