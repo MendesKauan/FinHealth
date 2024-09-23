@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -29,11 +30,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.blur
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.StrokeCap
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-
+import androidx.compose.ui.unit.sp
 
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
@@ -41,14 +43,25 @@ import androidx.compose.ui.unit.dp
 @Composable
 fun ModalRegisterGainOutlay() {
     Scaffold(
-        content = {
-            Box( modifier = Modifier
-                        .fillMaxSize()
-                        .padding(16.dp),
-                    contentAlignment = Alignment.Center
+        content = { paddingValues ->
+
+                Box( modifier = Modifier
+                    .fillMaxSize()
+                    .padding(top = 200.dp),
+                    contentAlignment = Alignment.TopCenter
                 ) {
+                    Text(
+                        text = "Registre os valores",
+                        modifier = Modifier
+                            .padding(16.dp),
+                        textAlign = TextAlign.Center,
+                        fontSize = 30.sp,
+                        fontWeight = FontWeight.Bold
+                    )
+
                     CardRegisterGainOutlay()
                 }
+
 
         }
     )
@@ -61,18 +74,15 @@ fun CardRegisterGainOutlay() {
 
     val selectedState = remember { mutableStateOf("ganho") }
     val inputValue = remember { mutableStateOf("") }
+    val descriptionValue = remember { mutableStateOf("") }
 
-
-        Box (
-            modifier = Modifier.size(width = 300.dp, height = 250.dp),
-            contentAlignment = Alignment.TopCenter
-        ){
-            Text(
-                text = "Registre os valores",
-                modifier = Modifier
-                    .padding(16.dp),
-                textAlign = TextAlign.Center,
-            )
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(16.dp),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Top
+        ) {
 
             Column(
                 modifier = Modifier.fillMaxSize(),
@@ -83,27 +93,58 @@ fun CardRegisterGainOutlay() {
 
                 Spacer(modifier = Modifier.height(50.dp))
 
+                Row (
+                    modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 16.dp),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.SpaceAround
+                ) {
                     Row(
-                        verticalAlignment = Alignment.CenterVertically
+                        verticalAlignment = Alignment.CenterVertically,
                     ) {
                         RadioButton(
                             selected = selectedState.value == "ganho",
                             onClick = { selectedState.value = "ganho" })
-                        Text(text = "Ganho")
+                        Text(
+                            fontSize = 20.sp,
+                            text = "Ganho"
+                        )
+                    }
+
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically,
+                        ) {
 
                         RadioButton(
                             selected = selectedState.value == "despesa",
                             onClick = { selectedState.value = "despesa" })
-                        Text(text = "Despesa")
-                    }
+                        Text(
+                            fontSize = 20.sp,
+                            text = "Despesa"
+                        )
 
-                    OutlinedTextField(
-                            value = inputValue.value,
-                            onValueChange = { inputValue.value = it },
-                            label = { Text("Insira o valor") },
-                            placeholder = { Text("0.00") },
-                            modifier = Modifier.fillMaxWidth(0.8f)
-                    )
+                    }
+                }
+
+                OutlinedTextField(
+                    value = inputValue.value,
+                    onValueChange = { inputValue.value = it },
+                    label = { Text("Insira o valor") },
+                    placeholder = { Text("0.00") },
+                    modifier = Modifier.fillMaxWidth(0.8f)
+                )
+
+                OutlinedTextField(
+                    value = descriptionValue.value,
+                    onValueChange = { descriptionValue.value = it },
+                    label = { Text("Insira a descrição") },
+                    placeholder = { Text("compras no shopping...") },
+                    modifier = Modifier
+                        .fillMaxWidth(0.8f)
+                        .fillMaxHeight(0.4f)
+
+                )
 
                 Spacer(modifier = Modifier.height(20.dp))
 
@@ -123,7 +164,10 @@ fun CardRegisterGainOutlay() {
 
 @Composable
 fun SendValueButton(onClick: () -> Unit) {
-    Button(onClick = { onClick() }) {
+    Button(
+        onClick = { onClick() },
+
+    ) {
         Text("Enviar")
     }
 }

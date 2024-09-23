@@ -16,9 +16,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.finhealth.screens.GainOutlay.CardValue
 
+@Preview
 @Composable
 fun ScreenContent() {
     Scaffold (
@@ -45,6 +47,7 @@ fun ScreenContent() {
                                 text = "Últimos 5 Registros",
                                 style = MaterialTheme.typography.titleMedium
                             )
+                            
                             RegisterList(
                                 modifier = Modifier.fillMaxWidth(),
                                 limit = 5
