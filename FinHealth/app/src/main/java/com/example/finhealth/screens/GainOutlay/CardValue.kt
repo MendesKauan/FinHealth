@@ -1,10 +1,12 @@
 package com.example.finhealth.screens.GainOutlay
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.CardDefaults
@@ -19,14 +21,19 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
-
+@Preview
 @Composable
-fun CardValue(gainValue: Double) {
-    Column {
+fun CardValue() {
+    Column (
+        modifier = Modifier.fillMaxSize(),
+        verticalArrangement = Arrangement.Top,
+        horizontalAlignment = Alignment.CenterHorizontally
+    ){
         Row {
-            CardGain(gainValue = 1.000)
+            CardGain()
             CardOutlay()
         }
+        CurrentBalance()
     }
 }
 
@@ -48,15 +55,29 @@ fun CardOutlay() {
                 textAlign = TextAlign.Center,
                 fontWeight = FontWeight.Bold
             )
+
+            Column(
+                modifier = Modifier
+                    .fillMaxSize(),
+                verticalArrangement = Arrangement.Center,
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+
+                Text(
+                    text = "R$ 780.00",
+                    textAlign = TextAlign.Center,
+                    fontWeight = FontWeight.Bold
+                )
+            }
         }
+
     }
 }
 
-
+@Preview
 @Composable
-fun CardGain(gainValue: Double) {
+fun CardGain() {
     ElevatedCard(
-
         modifier = Modifier
             .size(width = 180.dp, height = 100.dp)
     ) {
@@ -65,13 +86,57 @@ fun CardGain(gainValue: Double) {
             modifier = Modifier.fillMaxSize()
         ) {
             Text(
-                text = "Ganho: $gainValue",
-                modifier = Modifier
-                    .padding(16.dp),
+                text = "Ganho",
+                modifier = Modifier.padding(16.dp),
                 textAlign = TextAlign.Center,
                 fontWeight = FontWeight.Bold
             )
+
+            Column(
+                modifier = Modifier
+                    .fillMaxSize(),
+                verticalArrangement = Arrangement.Center,
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+
+                Text(
+                    text = "R$ 1500.00",
+                    textAlign = TextAlign.Center,
+                    fontWeight = FontWeight.Bold
+                )
+            }
         }
     }
 }
 
+@Preview
+@Composable
+fun CurrentBalance() {
+    ElevatedCard(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 22.dp, vertical = 0.dp)
+            .size(height = 46.dp, width = 0.dp)
+    ) {
+        Row (
+            modifier = Modifier.fillMaxSize(),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.Center
+        ) {
+            Text(
+                text = "Saldo Atual: ",
+                modifier = Modifier.padding(16.dp),
+                textAlign = TextAlign.Center,
+                fontWeight = FontWeight.Bold
+            )
+
+            Text(
+                text = "R$ 1500.00",
+                modifier = Modifier.padding(16.dp),
+                textAlign = TextAlign.Center,
+                fontWeight = FontWeight.Bold
+            )
+
+        }
+    }
+}

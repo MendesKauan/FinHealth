@@ -68,7 +68,7 @@ fun RegisterList(modifier: Modifier, limit: Int? = null) {
     LazyColumn (
         modifier = modifier
             .fillMaxSize()
-            .padding(top = 65.dp)
+            .padding(top = 60.dp)
     ){
         items(Registers.take(limit ?: Registers.size)) { register ->
             ListItem (

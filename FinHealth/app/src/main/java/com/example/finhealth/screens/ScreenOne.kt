@@ -1,10 +1,13 @@
 package com.example.finhealth.screens
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -28,18 +31,20 @@ fun ScreenContent() {
             Column(
                 modifier = Modifier
                     .fillMaxSize()
-                    .padding(top = 150.dp),
+                    .padding(paddingValues)
+                    .padding(top = 75.dp),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                CardValue(gainValue = 1.000)
+
+                CardValue()
 
                 Column(
-                    modifier = Modifier.padding(paddingValues)
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 16.dp, vertical = 6.dp)
                 ) {
                     Card(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(horizontal = 16.dp, vertical = 6.dp),
+                        modifier = Modifier.fillMaxWidth(),
                         elevation = CardDefaults.cardElevation(8.dp) // Sombra do card
                     ) {
                         Column(modifier = Modifier.padding(16.dp)) {
@@ -47,9 +52,10 @@ fun ScreenContent() {
                                 text = "Últimos 5 Registros",
                                 style = MaterialTheme.typography.titleMedium
                             )
-                            
+
                             RegisterList(
-                                modifier = Modifier.fillMaxWidth(),
+                                modifier = Modifier
+                                    .fillMaxWidth(),
                                 limit = 5
                             )
                         }

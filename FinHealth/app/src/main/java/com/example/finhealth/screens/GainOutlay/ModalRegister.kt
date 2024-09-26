@@ -14,9 +14,16 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.AccountCircle
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.Button
+import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.ElevatedCard
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.ProgressIndicatorDefaults
 import androidx.compose.material3.RadioButton
@@ -30,19 +37,43 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.blur
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.StrokeCap
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavHostController
+import com.example.finhealth.R
 
 
+@OptIn(ExperimentalMaterial3Api::class)
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
-@Preview
+
 @Composable
-fun ModalRegisterGainOutlay() {
+fun ModalRegisterGainOutlay(navController: NavHostController) {
     Scaffold(
+        topBar = {
+
+            CenterAlignedTopAppBar(
+                title = {  // Adicione o título aqui
+                    Text(
+                        text = "Registrar Valores",
+                        fontSize = 20.sp,
+                        fontWeight = FontWeight.Bold
+                    )
+                },
+                navigationIcon = {
+                    IconButton(onClick = { navController.navigateUp() }) {  // Botão de voltar
+                        Icon(
+                            imageVector = Icons.Filled.ArrowBack,  // Use o ícone de seta de voltar
+                            contentDescription = "Voltar"
+                        )
+                    }
+                }
+            )
+        },
         content = { paddingValues ->
 
                 Box( modifier = Modifier
@@ -61,14 +92,12 @@ fun ModalRegisterGainOutlay() {
 
                     CardRegisterGainOutlay()
                 }
-
-
         }
     )
 }
 
 
-
+@Preview
 @Composable
 fun CardRegisterGainOutlay() {
 
@@ -131,7 +160,7 @@ fun CardRegisterGainOutlay() {
                     value = inputValue.value,
                     onValueChange = { inputValue.value = it },
                     label = { Text("Insira o valor") },
-                    placeholder = { Text("0.00") },
+                    placeholder = { Text("R$ 0.00") },
                     modifier = Modifier.fillMaxWidth(0.8f)
                 )
 
@@ -152,8 +181,7 @@ fun CardRegisterGainOutlay() {
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     SendValueButton(onClick = { 1 + 1 })
-                    Spacer(modifier = Modifier.width(20.dp))
-                    CancelButton(onClick = { 1 + 1 })
+
                 }
 
             }
@@ -165,17 +193,12 @@ fun CardRegisterGainOutlay() {
 @Composable
 fun SendValueButton(onClick: () -> Unit) {
     Button(
+        modifier = Modifier.fillMaxWidth(0.8f),
         onClick = { onClick() },
 
     ) {
-        Text("Enviar")
+        Text("Adicionar +")
     }
 }
 
-@Composable
-fun CancelButton(onClick: () -> Unit) {
-    Button(onClick = { onClick() }) {
-        Text("Cancelar")
-    }
-}
 
