@@ -37,6 +37,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.blur
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.StrokeCap
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -46,6 +47,12 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.example.finhealth.R
+import com.example.finhealth.data.ROOM.DataBaseROOM
+import com.example.finhealth.data.models.GainOutlay.GainOutlayDao
+import com.example.finhealth.data.models.GainOutlay.GainOutlayModel
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -53,6 +60,10 @@ import com.example.finhealth.R
 
 @Composable
 fun ModalRegisterGainOutlay(navController: NavHostController) {
+
+    val db = DataBaseROOM.getInstance(context = LocalContext.current)
+    val dao = db.getGainOutlayDao()
+
     Scaffold(
         topBar = {
 
@@ -90,16 +101,16 @@ fun ModalRegisterGainOutlay(navController: NavHostController) {
                         fontWeight = FontWeight.Bold
                     )
 
-                    CardRegisterGainOutlay()
+                    CardRegisterGainOutlay(dao = dao)
                 }
         }
     )
 }
 
 
-@Preview
+
 @Composable
-fun CardRegisterGainOutlay() {
+fun CardRegisterGainOutlay(dao: GainOutlayDao) {
 
     val selectedState = remember { mutableStateOf("ganho") }
     val inputValue = remember { mutableStateOf("") }
@@ -180,7 +191,21 @@ fun CardRegisterGainOutlay() {
                 Row(
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-                    SendValueButton(onClick = { 1 + 1 })
+                    SendValueButton(
+                        onClick = {
+
+                            val value = inputValue.value.toDoubleOrNull() ?: 0.0
+                            val description = descriptionValue.value
+
+                            val newGainOutlay = GainOutlayModel(
+                                value = value,
+                                description = description,
+                                type = selectedState.value == "ganho"
+
+                            )
+
+                            saveGainOutlay(newGainOutlay, dao)
+                    })
 
                 }
 
@@ -189,6 +214,13 @@ fun CardRegisterGainOutlay() {
 
 }
 
+
+fun saveGainOutlay(model: GainOutlayModel, dao: GainOutlayDao) {
+    // Insere o dado no banco de dados de forma assíncrona
+    CoroutineScope(Dispatchers.IO).launch {
+        dao.updateAndSaveGainOutlay(model)
+    }
+}
 
 @Composable
 fun SendValueButton(onClick: () -> Unit) {

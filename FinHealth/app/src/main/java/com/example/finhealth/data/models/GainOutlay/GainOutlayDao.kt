@@ -1,4 +1,4 @@
-package com.example.finhealth.data.models
+package com.example.finhealth.data.models.GainOutlay
 
 import androidx.room.Dao
 import androidx.room.Delete
@@ -17,7 +17,7 @@ interface GainOutlayDao {
     suspend fun getById(idx: Int): GainOutlayModel
 
     @Upsert
-    suspend fun registerAndSaveGainOutlay(gainOutlayModel: GainOutlayModel)
+    suspend fun updateAndSaveGainOutlay(gainOutlayModel: GainOutlayModel)
 
     @Delete
     suspend fun delete(gainOutlayModel: GainOutlayModel)

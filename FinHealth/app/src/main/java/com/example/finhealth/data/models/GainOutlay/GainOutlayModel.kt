@@ -1,4 +1,4 @@
-package com.example.finhealth.data.models
+package com.example.finhealth.data.models.GainOutlay
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
