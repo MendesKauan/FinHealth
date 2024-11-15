@@ -1,4 +1,4 @@
-package com.example.finhealth.screens
+package com.example.finhealth.ui.theme.screens
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.Arrangement
@@ -41,11 +41,11 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.example.finhealth.R
-import com.example.finhealth.routes.NavRoutes
-import com.example.finhealth.routes.ScreenRoutes
-import com.example.finhealth.screens.GainOutlay.CardValue
-import com.example.finhealth.screens.GainOutlay.ModalRegisterGainOutlay
-import com.example.finhealth.utils.navBar
+import com.example.finhealth.ui.theme.routes.NavRoutes
+import com.example.finhealth.ui.theme.routes.ScreenRoutes
+import com.example.finhealth.ui.theme.screens.GainOutlay.CardValue
+import com.example.finhealth.ui.theme.screens.GainOutlay.ModalRegisterGainOutlay
+import com.example.finhealth.ui.theme.utils.navBar
 import androidx.navigation.NavHost as NavHost1
 
 

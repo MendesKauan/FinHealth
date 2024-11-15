@@ -1,4 +1,4 @@
-package com.example.finhealth.utils
+package com.example.finhealth.ui.theme.utils
 
 import androidx.benchmark.perfetto.Row
 import androidx.compose.foundation.layout.Arrangement
@@ -20,7 +20,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.example.finhealth.R
-import com.example.finhealth.routes.ScreenRoutes
+import com.example.finhealth.ui.theme.routes.ScreenRoutes
 
 @Composable
 fun navBar(navController: NavController) {

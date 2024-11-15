@@ -1,4 +1,4 @@
-package com.example.finhealth.screens
+package com.example.finhealth.ui.theme.screens
 
 import android.annotation.SuppressLint
 import android.app.LauncherActivity.ListItem

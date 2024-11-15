@@ -1,4 +1,4 @@
-package com.example.finhealth.routes
+package com.example.finhealth.ui.theme.routes
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
@@ -7,10 +7,10 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.finhealth.R
-import com.example.finhealth.screens.GainOutlay.ModalRegisterGainOutlay
-import com.example.finhealth.screens.MainScreen
-import com.example.finhealth.screens.ScreenContent
-import com.example.finhealth.screens.ScreenList
+import com.example.finhealth.ui.theme.screens.GainOutlay.ModalRegisterGainOutlay
+import com.example.finhealth.ui.theme.screens.MainScreen
+import com.example.finhealth.ui.theme.screens.ScreenContent
+import com.example.finhealth.ui.theme.screens.ScreenList
 
 
 object ScreenRoutes {

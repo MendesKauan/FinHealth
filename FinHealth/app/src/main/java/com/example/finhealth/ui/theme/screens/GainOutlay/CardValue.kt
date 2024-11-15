@@ -1,4 +1,4 @@
-package com.example.finhealth.screens.GainOutlay
+package com.example.finhealth.ui.theme.screens.GainOutlay
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box

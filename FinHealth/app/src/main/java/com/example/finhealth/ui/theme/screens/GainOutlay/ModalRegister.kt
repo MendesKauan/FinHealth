@@ -1,4 +1,4 @@
-package com.example.finhealth.screens.GainOutlay
+package com.example.finhealth.ui.theme.screens.GainOutlay
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.background
