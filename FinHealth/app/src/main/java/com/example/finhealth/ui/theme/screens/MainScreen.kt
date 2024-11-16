@@ -51,8 +51,6 @@ import androidx.navigation.NavHost as NavHost1
 
 
 
-var name : String = "Kauan"
-
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @OptIn(ExperimentalMaterial3Api::class)
 
@@ -98,6 +96,8 @@ fun MainScreen() {
         }
     )
 }
+
+var name : String = "Kauan"
 
 
 
