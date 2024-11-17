@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "600769880160",
+    "project_id": "finhealth-remotedb",
+    "storage_bucket": "finhealth-remotedb.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:600769880160:android:1a64888f944dc5d93da305",
+        "android_client_info": {
+          "package_name": "com.example.finhealth"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB7kE_Ik_TBZgkRCMP4bQyGzxgNUe2ieJM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

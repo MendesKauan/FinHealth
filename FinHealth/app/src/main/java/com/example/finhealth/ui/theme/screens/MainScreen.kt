@@ -46,6 +46,7 @@ import com.example.finhealth.ui.theme.routes.ScreenRoutes
 import com.example.finhealth.ui.theme.screens.GainOutlay.CardValue
 import com.example.finhealth.ui.theme.screens.GainOutlay.ModalRegisterGainOutlay
 import com.example.finhealth.ui.theme.utils.navBar
+import com.example.finhealth.viewModel.GainOutlayViewModel
 import androidx.navigation.NavHost as NavHost1
 
 
