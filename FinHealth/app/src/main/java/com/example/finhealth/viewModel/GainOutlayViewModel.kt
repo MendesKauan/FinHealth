@@ -1,6 +1,7 @@
 package com.example.finhealth.viewModel
 
 import android.app.Application
+import android.util.Log
 import androidx.compose.ui.platform.LocalView
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.ViewModel
@@ -32,33 +33,51 @@ class GainOutlayViewModel (
     val gainOutlays: StateFlow<List<GainOutlayModel>> get() = _gainOutlays
 
     init {
+        // Coleta os dados da ROOM e atualiza o estado
         viewModelScope.launch {
             localRepository.listGainOutlay().collect { list ->
                 _gainOutlays.value = list
             }
         }
+
         syncWithFirestore()
-        startFirestoreListener()// Sincroniza dados na inicialização
+        // Inicia o listener do Firestore para escutar mudanças
+        startFirestoreListener() // Sincroniza dados na inicialização
     }
 
     fun syncWithFirestore() {
         firestore.collection("GainOutlayColection")
-            .get()
-            .addOnSuccessListener { snapshot ->
-                val gainOutlaysFromFirestore = snapshot.documents.mapNotNull {
-                    it.toObject(GainOutlayModel::class.java)
+            .addSnapshotListener { snapshot, error ->
+                if (error != null) {
+                    error.printStackTrace()
+                    return@addSnapshotListener
                 }
-                viewModelScope.launch(Dispatchers.IO) {
-                    localRepository.updateAndSaveGainOutlayList(gainOutlaysFromFirestore)
+
+                snapshot?.let { documentSnapshot ->
+                    val gainOutlaysFromFirestore = documentSnapshot.documents.mapNotNull { doc ->
+                        doc.toObject(GainOutlayModel::class.java)?.copy(id = null) // Ignora o id para auto-generate
+                    }
+
+                    viewModelScope.launch(Dispatchers.IO) {
+                        val existingOutlays = localRepository.listGainOutlayOnce()
+                        val newOutlays = gainOutlaysFromFirestore.filter { fireStoreOutlay ->
+                            existingOutlays.none { it.id == fireStoreOutlay.id }
+                        }
+
+                        if (newOutlays.isNotEmpty()) {
+                            localRepository.updateAndSaveGainOutlayList(newOutlays)
+                        }
+                    }
                 }
-            }
-            .addOnFailureListener { e ->
-                e.printStackTrace()
             }
     }
 
+    // Método para iniciar o listener do Firestore
     fun startFirestoreListener() {
-        if (isFirestoreListenerActive) return // Evita múltiplas inscrições
+        if (isFirestoreListenerActive) {
+            Log.d("FirestoreListener", "Listener já está ativo.")
+            return
+        }
         isFirestoreListenerActive = true
 
         firestore.collection("GainOutlayColection")
@@ -72,15 +91,17 @@ class GainOutlayViewModel (
                     val gainOutlaysFromFirestore = it.documents.mapNotNull { doc ->
                         doc.toObject(GainOutlayModel::class.java)
                     }
-                    val currentList = _gainOutlays.value
-                    if (currentList != gainOutlaysFromFirestore) {
-                        viewModelScope.launch(Dispatchers.IO) {
-                            localRepository.updateAndSaveGainOutlayList(gainOutlaysFromFirestore)
-                        }
+
+                    Log.d("FirestoreListener", "Dados sincronizados com o Firestore.")
+
+                    viewModelScope.launch(Dispatchers.IO) {
+                        localRepository.updateAndSaveGainOutlayList(gainOutlaysFromFirestore)
                     }
                 }
             }
     }
+
+
 
     fun updateAndSaveGainOutlay(gainOutlay: GainOutlayModel) {
         viewModelScope.launch {

@@ -21,6 +21,7 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.ListItem
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -44,13 +45,22 @@ fun ScreenList(viewModel: GainOutlayViewModel = viewModel()) {
 
     val gainOutlays = viewModel.gainOutlays.collectAsState().value
     var editingOutlay by remember { mutableStateOf<GainOutlayModel?>(null) }
+    var isSynced by remember { mutableStateOf(false) }  // Flag para controle de sincronização
 
-    Scaffold (
+    // Verifique se os dados já foram sincronizados antes de disparar a sincronização novamente
+    LaunchedEffect(Unit) {
+        if (!isSynced) {
+            viewModel.startFirestoreListener()
+            isSynced = true  // Marca como sincronizado
+        }
+    }
+
+    Scaffold(
         content = { paddingValues ->
-                RegisterList(
-                    modifier = Modifier.padding(paddingValues),
-                    gainOutlays = gainOutlays,
-                    onEdit = { editingOutlay = it })
+            RegisterList(
+                modifier = Modifier.padding(paddingValues),
+                gainOutlays = gainOutlays,
+                onEdit = { editingOutlay = it })
         }
     )
 
@@ -69,9 +79,6 @@ fun ScreenList(viewModel: GainOutlayViewModel = viewModel()) {
         )
     }
 }
-
-
-
 
 
 @Composable

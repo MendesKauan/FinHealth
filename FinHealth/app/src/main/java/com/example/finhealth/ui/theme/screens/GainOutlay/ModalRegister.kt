@@ -1,6 +1,7 @@
 package com.example.finhealth.ui.theme.screens.GainOutlay
 
 import android.annotation.SuppressLint
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -50,6 +51,7 @@ import com.example.finhealth.R
 import com.example.finhealth.data.ROOM.DataBaseROOM
 import com.example.finhealth.data.models.GainOutlay.GainOutlayDao
 import com.example.finhealth.data.models.GainOutlay.GainOutlayModel
+import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -219,6 +221,23 @@ fun saveGainOutlay(model: GainOutlayModel, dao: GainOutlayDao) {
     // Insere o dado no banco de dados de forma assíncrona
     CoroutineScope(Dispatchers.IO).launch {
         dao.updateAndSaveGainOutlay(model)
+
+        val firestore = FirebaseFirestore.getInstance()
+        val gainOutlayRef = firestore.collection("GainOutlayColection").document() // Cria um novo documento
+
+        val data = hashMapOf(
+            "description" to model.description,
+            "value" to model.value,
+            "type" to model.type
+        )
+
+        gainOutlayRef.set(data)
+            .addOnSuccessListener {
+                Log.d("Firestore", "Documento salvo com sucesso!")
+            }
+            .addOnFailureListener { e ->
+                Log.e("Firestore", "Erro ao salvar o documento", e)
+            }
     }
 }
 
