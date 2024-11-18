@@ -8,8 +8,7 @@ import androidx.room.PrimaryKey
 data class GainOutlayModel (
     @PrimaryKey(autoGenerate = true)
     val id: Int? = null,
-    val value: Double,
-    val description: String,
-    val type: Boolean
-
+    val value: Double = 0.0,
+    val description: String = "",
+    val type: Boolean = true
 )

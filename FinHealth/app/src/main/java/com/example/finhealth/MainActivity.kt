@@ -15,7 +15,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import com.example.finhealth.data.ROOM.DataBaseROOM.Companion.getInstance
 import com.example.finhealth.data.repository.IRepository
 import com.example.finhealth.data.repository.LocalRepository
-import com.example.finhealth.data.repository.RemoteRepository
 import com.example.finhealth.ui.theme.screens.MainScreen
 import com.example.finhealth.ui.theme.FinHealthTheme
 import com.example.finhealth.viewModel.GainOutlayViewModel
@@ -25,19 +24,6 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
-            val isLocal = false
-
-            val repository: IRepository
-            if(isLocal) {
-                val db = remember { getInstance(this)}
-                val dao = db.getGainOutlayDao()
-                repository = LocalRepository(dao)
-            }
-            else {
-                repository = RemoteRepository()
-            }
-
-            val viewModel = GainOutlayViewModel(application, repository)
 
             MainScreen()
         }
