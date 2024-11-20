@@ -14,23 +14,23 @@ import kotlinx.coroutines.flow.Flow
 interface GainOutlayDao {
 
     // Retorna uma lista observável de todos os itens
-    @Query("SELECT * FROM table_GainOutlay ORDER BY id DESC")
+//    @Query("SELECT * FROM table_GainOutlay ORDER BY id DESC")
     fun listGainOutlay(): Flow<List<GainOutlayModel>>
 
     // Retorna uma lista única de todos os itens (usado para operações que não precisam de fluxo)
-    @Query("SELECT * FROM table_GainOutlay ORDER BY id DESC")
+//    @Query("SELECT * FROM table_GainOutlay ORDER BY id DESC")
     suspend fun listGainOutlayOnce(): List<GainOutlayModel>
 
     // Inserir vários itens em lote (com conflito ignorado)
-    @Insert(onConflict = OnConflictStrategy.IGNORE)
+//    @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insertAll(outlays: List<GainOutlayModel>)
 
     // Atualizar um item específico
-    @Update
+//    @Update
     suspend fun update(outlay: GainOutlayModel)
 
     // Obter um item por ID
-    @Query("SELECT * FROM table_GainOutlay WHERE id = :idx")
+//    @Query("SELECT * FROM table_GainOutlay WHERE id = :idx")
     suspend fun getById(idx: Int): GainOutlayModel
 
     // Inserção ou atualização inteligente

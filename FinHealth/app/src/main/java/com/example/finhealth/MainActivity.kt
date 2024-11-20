@@ -12,7 +12,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import com.example.finhealth.data.ROOM.DataBaseROOM.Companion.getInstance
 import com.example.finhealth.data.repository.IRepository
 import com.example.finhealth.data.repository.LocalRepository
 import com.example.finhealth.ui.theme.screens.MainScreen

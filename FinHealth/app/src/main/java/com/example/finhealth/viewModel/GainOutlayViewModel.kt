@@ -1,6 +1,7 @@
 package com.example.finhealth.viewModel
 
 import android.app.Application
+import android.util.Log
 import androidx.compose.ui.platform.LocalView
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.ViewModel
@@ -10,6 +11,7 @@ import com.example.finhealth.data.models.GainOutlay.GainOutlayDao
 import com.example.finhealth.data.models.GainOutlay.GainOutlayModel
 import com.example.finhealth.data.repository.IRepository
 import com.example.finhealth.data.repository.LocalRepository
+import com.example.finhealth.data.repository.RemoteRepository
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -21,10 +23,9 @@ import kotlinx.coroutines.withContext
 
 class GainOutlayViewModel (
     application: Application,
-
 ): AndroidViewModel(application) {
 
-    private val localRepository = LocalRepository(application)
+    private val remoteRepository: IRepository = RemoteRepository()
     private val firestore = FirebaseFirestore.getInstance()
     private var isFirestoreListenerActive = false
 
@@ -32,25 +33,19 @@ class GainOutlayViewModel (
     val gainOutlays: StateFlow<List<GainOutlayModel>> get() = _gainOutlays
 
     init {
-        viewModelScope.launch {
-            localRepository.listGainOutlay().collect { list ->
-                _gainOutlays.value = list
-            }
-        }
         syncWithFirestore()
-        startFirestoreListener()// Sincroniza dados na inicialização
+        startFirestoreListener()
     }
 
     fun syncWithFirestore() {
-        firestore.collection("GainOutlayColection")
+        firestore.collection("GainOutlayCollection")
             .get()
             .addOnSuccessListener { snapshot ->
                 val gainOutlaysFromFirestore = snapshot.documents.mapNotNull {
                     it.toObject(GainOutlayModel::class.java)
                 }
-                viewModelScope.launch(Dispatchers.IO) {
-                    localRepository.updateAndSaveGainOutlayList(gainOutlaysFromFirestore)
-                }
+                Log.d("GainOutlay", "Dados do Firestore: $gainOutlaysFromFirestore")
+                _gainOutlays.value = gainOutlaysFromFirestore
             }
             .addOnFailureListener { e ->
                 e.printStackTrace()
@@ -61,7 +56,7 @@ class GainOutlayViewModel (
         if (isFirestoreListenerActive) return // Evita múltiplas inscrições
         isFirestoreListenerActive = true
 
-        firestore.collection("GainOutlayColection")
+        firestore.collection("GainOutlayCollection")
             .addSnapshotListener { snapshot, error ->
                 if (error != null) {
                     error.printStackTrace()
@@ -74,23 +69,27 @@ class GainOutlayViewModel (
                     }
                     val currentList = _gainOutlays.value
                     if (currentList != gainOutlaysFromFirestore) {
-                        viewModelScope.launch(Dispatchers.IO) {
-                            localRepository.updateAndSaveGainOutlayList(gainOutlaysFromFirestore)
-                        }
+                        _gainOutlays.value = gainOutlaysFromFirestore // Atualiza a lista local com os dados mais recentes do Firebase
                     }
                 }
             }
     }
 
-    fun updateAndSaveGainOutlay(gainOutlay: GainOutlayModel) {
+    fun saveGainOutlay(gainOutlay: GainOutlayModel) {
         viewModelScope.launch {
-            localRepository.updateAndSaveGainOutlay(gainOutlay)
+            remoteRepository.save(gainOutlay)
         }
     }
 
     fun deleteGainOutlay(gainOutlay: GainOutlayModel) {
         viewModelScope.launch {
-            localRepository.delete(gainOutlay)
+            remoteRepository.delete(gainOutlay)
+        }
+    }
+
+    fun updateGainOutlay(gainOutlay: GainOutlayModel) {
+        viewModelScope.launch {
+            remoteRepository.update(gainOutlay)
         }
     }
 

@@ -8,37 +8,29 @@ import kotlinx.coroutines.flow.Flow
 
 class LocalRepository(
     application: Application
-) : IRepository {
+) {
 
-    private val dao: GainOutlayDao = DataBaseROOM.getInstance(application).getGainOutlayDao()
+//    private val dao: GainOutlayDao = DataBaseROOM.getInstance(application).getGainOutlayDao()
 
-    override fun listGainOutlay(): Flow<List<GainOutlayModel>> {
-        return dao.listGainOutlay()
+     suspend fun fetchById(id: Int): GainOutlayModel? {
+        // Similarmente, este método não será usado, mas precisa ser implementado.
+        return null  // Apenas retornando null como placeholder
     }
 
-    override suspend fun getById(idx: Int): GainOutlayModel {
-        return dao.getById(idx)
+     suspend fun saveAll(gainOutlays: List<GainOutlayModel>) {
+        // Método vazio para evitar erros
     }
 
-    // Atualize o método para lidar com múltiplos registros
-    override suspend fun updateAndSaveGainOutlayList(gainOutlays: List<GainOutlayModel>) {
-        val existingOutlays = dao.listGainOutlayOnce()
-        val existingIds = existingOutlays.map { it.id }.toSet()
-
-        val newOutlays = gainOutlays.filter { it.id !in existingIds }
-        val updatedOutlays = gainOutlays.filter { it.id in existingIds }
-
-        dao.insertAll(newOutlays)
-        updatedOutlays.forEach { dao.update(it) }
+     suspend fun save(gainOutlay: GainOutlayModel) {
+        // Método vazio para evitar erros
     }
 
-    override suspend fun updateAndSaveGainOutlay(gainOutlay: GainOutlayModel) {
-        return dao.updateAndSaveGainOutlay(gainOutlay)
+     suspend fun update(gainOutlay: GainOutlayModel) {
+        // Método vazio para evitar erros
     }
 
-    override suspend fun delete(gainOutlayModel: GainOutlayModel) {
-        dao.delete(gainOutlayModel)
+     suspend fun delete(gainOutlay: GainOutlayModel) {
+        // Método vazio para evitar erros
     }
 }
-
 

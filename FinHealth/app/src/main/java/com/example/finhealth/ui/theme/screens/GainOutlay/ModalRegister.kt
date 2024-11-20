@@ -50,6 +50,7 @@ import com.example.finhealth.R
 import com.example.finhealth.data.ROOM.DataBaseROOM
 import com.example.finhealth.data.models.GainOutlay.GainOutlayDao
 import com.example.finhealth.data.models.GainOutlay.GainOutlayModel
+import com.example.finhealth.viewModel.GainOutlayViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -59,10 +60,10 @@ import kotlinx.coroutines.launch
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 
 @Composable
-fun ModalRegisterGainOutlay(navController: NavHostController) {
-
-    val db = DataBaseROOM.getInstance(context = LocalContext.current)
-    val dao = db.getGainOutlayDao()
+fun ModalRegisterGainOutlay(
+    navController: NavHostController,
+    viewModel: GainOutlayViewModel
+) {
 
     Scaffold(
         topBar = {
@@ -101,7 +102,7 @@ fun ModalRegisterGainOutlay(navController: NavHostController) {
                         fontWeight = FontWeight.Bold
                     )
 
-                    CardRegisterGainOutlay(dao = dao)
+                    CardRegisterGainOutlay(viewModel = viewModel)
                 }
         }
     )
@@ -110,7 +111,7 @@ fun ModalRegisterGainOutlay(navController: NavHostController) {
 
 
 @Composable
-fun CardRegisterGainOutlay(dao: GainOutlayDao) {
+fun CardRegisterGainOutlay(viewModel: GainOutlayViewModel) {
 
     val selectedState = remember { mutableStateOf("ganho") }
     val inputValue = remember { mutableStateOf("") }
@@ -204,7 +205,7 @@ fun CardRegisterGainOutlay(dao: GainOutlayDao) {
 
                             )
 
-                            saveGainOutlay(newGainOutlay, dao)
+                            viewModel.saveGainOutlay(newGainOutlay)
                     })
 
                 }
@@ -214,13 +215,6 @@ fun CardRegisterGainOutlay(dao: GainOutlayDao) {
 
 }
 
-
-fun saveGainOutlay(model: GainOutlayModel, dao: GainOutlayDao) {
-    // Insere o dado no banco de dados de forma assíncrona
-    CoroutineScope(Dispatchers.IO).launch {
-        dao.updateAndSaveGainOutlay(model)
-    }
-}
 
 @Composable
 fun SendValueButton(onClick: () -> Unit) {

@@ -31,11 +31,9 @@ import com.example.finhealth.viewModel.GainOutlayViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.finhealth.data.models.GainOutlay.GainOutlayModel
 
-@Preview
 @Composable
-fun ScreenContent() {
+fun ScreenContent(viewModel: GainOutlayViewModel) {
 
-    val viewModel: GainOutlayViewModel = viewModel()
     val gainOutlays = viewModel.gainOutlays.collectAsState()
     var editingOutlay by remember { mutableStateOf<GainOutlayModel?>(null) }
 
@@ -83,7 +81,7 @@ fun ScreenContent() {
             gainOutlay = outlay,
             onDismiss = { editingOutlay = null }, // Fecha o modal
             onSave = { updatedOutlay ->
-                viewModel.updateAndSaveGainOutlay(updatedOutlay) // Atualiza no ViewModel
+                viewModel.updateGainOutlay(updatedOutlay) // Atualiza no ViewModel
                 editingOutlay = null
             },
             onDelete = { outlayToDelete ->

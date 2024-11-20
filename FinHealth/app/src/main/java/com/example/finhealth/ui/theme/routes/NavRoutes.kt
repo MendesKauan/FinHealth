@@ -2,6 +2,7 @@ package com.example.finhealth.ui.theme.routes
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -11,6 +12,7 @@ import com.example.finhealth.ui.theme.screens.GainOutlay.ModalRegisterGainOutlay
 import com.example.finhealth.ui.theme.screens.MainScreen
 import com.example.finhealth.ui.theme.screens.ScreenContent
 import com.example.finhealth.ui.theme.screens.ScreenList
+import com.example.finhealth.viewModel.GainOutlayViewModel
 
 
 object ScreenRoutes {
@@ -31,15 +33,17 @@ object ScreenRoutes {
 
 
 @Composable
-fun NavRoutes(navController: NavHostController) {
+fun NavRoutes( navController: NavHostController ) {
+
+    val viewModel: GainOutlayViewModel = viewModel()
 
     NavHost(
         navController = navController,
         startDestination = ScreenRoutes.ScreenOne
     ) {
 
-        composable(ScreenRoutes.ScreenOne) { ScreenContent() }
-        composable(ScreenRoutes.ModalRegister) { ModalRegisterGainOutlay(navController) }
+        composable(ScreenRoutes.ScreenOne) { ScreenContent(viewModel) }
+        composable(ScreenRoutes.ModalRegister) { ModalRegisterGainOutlay(navController, viewModel) } // preciso aqui
         composable(ScreenRoutes.ScreenRegisterList) { ScreenList() }
 
     }

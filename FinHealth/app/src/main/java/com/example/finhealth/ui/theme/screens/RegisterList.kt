@@ -59,7 +59,7 @@ fun ScreenList(viewModel: GainOutlayViewModel = viewModel()) {
             gainOutlay = outlay,
             onDismiss = { editingOutlay = null }, // Fecha o modal
             onSave = { updatedOutlay ->
-                viewModel.updateAndSaveGainOutlay(updatedOutlay)
+                viewModel.updateGainOutlay(updatedOutlay)
                 editingOutlay = null
             },
             onDelete = { outlayToDelete ->
@@ -77,42 +77,48 @@ fun ScreenList(viewModel: GainOutlayViewModel = viewModel()) {
 @Composable
 fun RegisterList(modifier: Modifier,
                  gainOutlays: List<GainOutlayModel>,
-                 onEdit: (GainOutlayModel) -> Unit) {
+                 onEdit: (GainOutlayModel) -> Unit
+) {
+    if (gainOutlays.isNotEmpty()) {
 
-    LazyColumn (
-        modifier = modifier
-            .fillMaxSize()
-            .padding(top = 60.dp)
-    ){
-        items(gainOutlays) { register ->
-            ListItem (
-                headlineContent = { Text(register.description) },
-                supportingContent = {
-                    val sign = if (register.type) "+" else "-"
-                    Text("$sign R$ ${register.value}")
-                                    },
-                leadingContent = {
-                    Icon(
-                        painter = painterResource(id = if (register.type) R.drawable.gain_icon else R.drawable.expense_icon),
-                        contentDescription = "Icon",
-                        modifier = Modifier.size(30.dp),
-                        tint = if (register.type) Color.Green else Color.Red
-                    )
-                },
-                trailingContent = {
-                    IconButton(onClick = { onEdit(register) }) {
+        LazyColumn(
+            modifier = modifier
+                .fillMaxSize()
+                .padding(top = 60.dp)
+        ) {
+            items(gainOutlays) { register ->
+                ListItem(
+                    headlineContent = { Text(register.description) },
+                    supportingContent = {
+                        val sign = if (register.type) "+" else "-"
+                        Text("$sign R$ ${register.value}")
+                    },
+                    leadingContent = {
                         Icon(
-                            imageVector = Icons.Default.Edit,
-                            contentDescription = "Edit"
+                            painter = painterResource(id = if (register.type) R.drawable.gain_icon else R.drawable.expense_icon),
+                            contentDescription = "Icon",
+                            modifier = Modifier.size(30.dp),
+                            tint = if (register.type) Color.Green else Color.Red
                         )
+                    },
+                    trailingContent = {
+                        IconButton(onClick = { onEdit(register) }) {
+                            Icon(
+                                imageVector = Icons.Default.Edit,
+                                contentDescription = "Edit"
+                            )
+                        }
                     }
-                }
-            )
+                )
 
-            if (register != gainOutlays.last()) {
-                Divider()
+                if (register != gainOutlays.last()) {
+                    Divider()
+                }
             }
         }
+    } else {
+        Text("Nenhum registro encontrado")
     }
 }
+
 
