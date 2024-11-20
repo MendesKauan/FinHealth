@@ -12,6 +12,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.finhealth.data.repository.IRepository
 import com.example.finhealth.data.repository.LocalRepository
 import com.example.finhealth.ui.theme.screens.MainScreen
@@ -23,7 +24,11 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
-
+            FinHealthTheme {
+                val viewModel: GainOutlayViewModel = viewModel()
+                viewModel.syncWithFirestore()
+                viewModel.startFirestoreListener()
+            }
             MainScreen()
         }
     }

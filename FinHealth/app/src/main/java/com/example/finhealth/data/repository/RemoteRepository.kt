@@ -18,7 +18,10 @@ class RemoteRepository : IRepository {
                 close(error)
                 return@addSnapshotListener
             }
-            val gainOutlays = snapshot?.documents?.mapNotNull { it.toObject(GainOutlayModel::class.java) } ?: emptyList()
+            val gainOutlays = snapshot?.documents?.mapNotNull {
+                it.toObject(GainOutlayModel::class.java)
+            } ?: emptyList()
+
             trySend(gainOutlays).isSuccess
         }
         awaitClose { listener.remove() }

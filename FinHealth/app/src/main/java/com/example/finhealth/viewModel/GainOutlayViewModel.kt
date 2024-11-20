@@ -4,7 +4,9 @@ import android.app.Application
 import android.util.Log
 import androidx.compose.ui.platform.LocalView
 import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 import com.example.finhealth.data.ROOM.DataBaseROOM
 import com.example.finhealth.data.models.GainOutlay.GainOutlayDao
@@ -31,6 +33,7 @@ class GainOutlayViewModel (
 
     private val _gainOutlays = MutableStateFlow<List<GainOutlayModel>>(emptyList())
     val gainOutlays: StateFlow<List<GainOutlayModel>> get() = _gainOutlays
+    val gainOutlayList: LiveData<List<GainOutlayModel>> = remoteRepository.fetchAll().asLiveData()
 
     init {
         syncWithFirestore()

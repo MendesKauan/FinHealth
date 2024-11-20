@@ -68,6 +68,7 @@ dependencies {
     implementation(libs.androidx.benchmark.macro)
     implementation(libs.firebase.firestore.ktx)
     implementation(libs.firebase.crashlytics.buildtools)
+    implementation(libs.androidx.runtime.livedata)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -83,7 +84,12 @@ dependencies {
     implementation("androidx.room:room-ktx:$room_version")
     ksp("androidx.room:room-compiler:$room_version")
 
-    //fire base
-    implementation(platform("com.google.firebase:firebase-bom:33.6.0"))
+    //gson
+    implementation ("com.google.code.gson:gson:2.8.9")
+
+    //Firebase
+    implementation(platform("com.google.firebase:firebase-bom:33.5.1"))
     implementation("com.google.firebase:firebase-analytics")
+    implementation("com.google.firebase:firebase-firestore-ktx:25.1.1")
+
 }

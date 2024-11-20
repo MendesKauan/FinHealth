@@ -50,6 +50,7 @@ import com.example.finhealth.R
 import com.example.finhealth.data.ROOM.DataBaseROOM
 import com.example.finhealth.data.models.GainOutlay.GainOutlayDao
 import com.example.finhealth.data.models.GainOutlay.GainOutlayModel
+import com.example.finhealth.ui.theme.utils.generatorID
 import com.example.finhealth.viewModel.GainOutlayViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -64,6 +65,7 @@ fun ModalRegisterGainOutlay(
     navController: NavHostController,
     viewModel: GainOutlayViewModel
 ) {
+ val generatorID: generatorID = generatorID()
 
     Scaffold(
         topBar = {
@@ -102,7 +104,7 @@ fun ModalRegisterGainOutlay(
                         fontWeight = FontWeight.Bold
                     )
 
-                    CardRegisterGainOutlay(viewModel = viewModel)
+                    CardRegisterGainOutlay(viewModel = viewModel, generatorID)
                 }
         }
     )
@@ -111,7 +113,7 @@ fun ModalRegisterGainOutlay(
 
 
 @Composable
-fun CardRegisterGainOutlay(viewModel: GainOutlayViewModel) {
+fun CardRegisterGainOutlay(viewModel: GainOutlayViewModel, generatorID: generatorID) {
 
     val selectedState = remember { mutableStateOf("ganho") }
     val inputValue = remember { mutableStateOf("") }
@@ -199,6 +201,7 @@ fun CardRegisterGainOutlay(viewModel: GainOutlayViewModel) {
                             val description = descriptionValue.value
 
                             val newGainOutlay = GainOutlayModel(
+                                id = generatorID.generate(),
                                 value = value,
                                 description = description,
                                 type = selectedState.value == "ganho"

@@ -40,9 +40,8 @@ import com.example.finhealth.data.models.GainOutlay.GainOutlayModel
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
-fun ScreenList(viewModel: GainOutlayViewModel = viewModel()) {
+fun ScreenList(viewModel: GainOutlayViewModel = viewModel(), gainOutlays: List<GainOutlayModel>) {
 
-    val gainOutlays = viewModel.gainOutlays.collectAsState().value
     var editingOutlay by remember { mutableStateOf<GainOutlayModel?>(null) }
 
     Scaffold (
