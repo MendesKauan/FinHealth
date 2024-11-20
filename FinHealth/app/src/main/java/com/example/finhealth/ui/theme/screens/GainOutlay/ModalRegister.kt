@@ -65,7 +65,7 @@ fun ModalRegisterGainOutlay(
     navController: NavHostController,
     viewModel: GainOutlayViewModel
 ) {
- val generatorID: generatorID = generatorID()
+    val generatorID: generatorID = generatorID()
 
     Scaffold(
         topBar = {
