@@ -47,7 +47,7 @@ fun ScreenContent(viewModel: GainOutlayViewModel) {
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
 
-                CardValue()
+                CardValue(gainOutlays = viewModel.gainOutlays.collectAsState(initial = emptyList()).value)
 
                 Column(
                     modifier = Modifier

@@ -5,6 +5,7 @@ import android.app.LauncherActivity.ListItem
 import androidx.compose.foundation.layout.Box
 import androidx.compose.runtime.Composable
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -14,6 +15,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.filled.Favorite
+import androidx.compose.material.icons.filled.Star
 import androidx.compose.material3.Divider
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
@@ -26,6 +28,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
@@ -43,6 +46,7 @@ import com.example.finhealth.data.models.GainOutlay.GainOutlayModel
 fun ScreenList(viewModel: GainOutlayViewModel = viewModel(), gainOutlays: List<GainOutlayModel>) {
 
     var editingOutlay by remember { mutableStateOf<GainOutlayModel?>(null) }
+
 
     Scaffold (
         content = { paddingValues ->
@@ -90,7 +94,7 @@ fun RegisterList(modifier: Modifier,
                     headlineContent = { Text(register.description) },
                     supportingContent = {
                         val sign = if (register.type) "+" else "-"
-                        Text("$sign R$ ${register.value}")
+                        Text("$sign  R$ ${register.value}     -     ${register.date}")
                     },
                     leadingContent = {
                         Icon(
@@ -101,11 +105,22 @@ fun RegisterList(modifier: Modifier,
                         )
                     },
                     trailingContent = {
-                        IconButton(onClick = { onEdit(register) }) {
-                            Icon(
-                                imageVector = Icons.Default.Edit,
-                                contentDescription = "Edit"
-                            )
+                        Row (verticalAlignment = Alignment.CenterVertically){
+                            if (register.type == true) {
+                                if (register.description.equals("Salario", ignoreCase = true)) {
+                                    iconSalary()
+                                }
+                                if (register.description.equals("Salário", ignoreCase = true)) {
+                                    iconSalary()
+                                }
+                            }
+
+                            IconButton(onClick = { onEdit(register) }) {
+                                Icon(
+                                    imageVector = Icons.Default.Edit,
+                                    contentDescription = "Edit"
+                                )
+                            }
                         }
                     }
                 )
@@ -120,4 +135,12 @@ fun RegisterList(modifier: Modifier,
     }
 }
 
-
+@Composable
+fun iconSalary() {
+    Icon(
+        imageVector = Icons.Default.Star,
+        contentDescription = "Salário",
+        tint = Color.Red,
+        modifier = Modifier.padding(end = 8.dp)
+    )
+}

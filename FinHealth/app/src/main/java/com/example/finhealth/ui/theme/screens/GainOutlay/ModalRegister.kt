@@ -51,6 +51,7 @@ import com.example.finhealth.data.ROOM.DataBaseROOM
 import com.example.finhealth.data.models.GainOutlay.GainOutlayDao
 import com.example.finhealth.data.models.GainOutlay.GainOutlayModel
 import com.example.finhealth.ui.theme.utils.generatorID
+import com.example.finhealth.ui.theme.utils.getCurrentDate
 import com.example.finhealth.viewModel.GainOutlayViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -204,7 +205,8 @@ fun CardRegisterGainOutlay(viewModel: GainOutlayViewModel, generatorID: generato
                                 id = generatorID.generate(),
                                 value = value,
                                 description = description,
-                                type = selectedState.value == "ganho"
+                                type = selectedState.value == "ganho",
+                                date = getCurrentDate()
 
                             )
 

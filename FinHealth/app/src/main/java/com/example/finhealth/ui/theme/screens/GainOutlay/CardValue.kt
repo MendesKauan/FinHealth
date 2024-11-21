@@ -20,26 +20,28 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.finhealth.data.models.GainOutlay.GainOutlayModel
+import com.example.finhealth.viewModel.GainOutlayViewModel
 
-@Preview
 @Composable
-fun CardValue() {
+fun CardValue(gainOutlays: List<GainOutlayModel>) {
     Column (
         modifier = Modifier.fillMaxSize(),
         verticalArrangement = Arrangement.Top,
         horizontalAlignment = Alignment.CenterHorizontally
     ){
         Row {
-            CardGain()
-            CardOutlay()
+            CardGain(gainOutlays = gainOutlays)
+            CardOutlay(gainOutlays = gainOutlays)
         }
-        CurrentBalance()
+        CurrentBalance(gainOutlays = gainOutlays)
     }
 }
 
-@Preview
 @Composable
-fun CardOutlay() {
+fun CardOutlay(gainOutlays: List<GainOutlayModel>) {
+    val totalOutlay = gainOutlays.filter { !it.type }.sumOf { it.value }
+
     ElevatedCard(
         modifier = Modifier
             .size(width = 180.dp, height = 100.dp)
@@ -64,7 +66,7 @@ fun CardOutlay() {
             ) {
 
                 Text(
-                    text = "R$ 780.00",
+                    text = "R$ %.2f".format(totalOutlay),
                     textAlign = TextAlign.Center,
                     fontWeight = FontWeight.Bold
                 )
@@ -74,9 +76,9 @@ fun CardOutlay() {
     }
 }
 
-@Preview
 @Composable
-fun CardGain() {
+fun CardGain(gainOutlays: List<GainOutlayModel>) {
+    val totalGain = gainOutlays.filter { it.type }.sumOf { it.value }
     ElevatedCard(
         modifier = Modifier
             .size(width = 180.dp, height = 100.dp)
@@ -100,7 +102,7 @@ fun CardGain() {
             ) {
 
                 Text(
-                    text = "R$ 1500.00",
+                    text = "R$ %.2f".format(totalGain),
                     textAlign = TextAlign.Center,
                     fontWeight = FontWeight.Bold
                 )
@@ -109,9 +111,12 @@ fun CardGain() {
     }
 }
 
-@Preview
 @Composable
-fun CurrentBalance() {
+fun CurrentBalance(gainOutlays: List<GainOutlayModel>) {
+    val totalGain = gainOutlays.filter { it.type }.sumOf { it.value }
+    val totalOutlay = gainOutlays.filter { !it.type }.sumOf { it.value }
+    val currentBalance = totalGain - totalOutlay
+
     ElevatedCard(
         modifier = Modifier
             .fillMaxWidth()
@@ -131,7 +136,7 @@ fun CurrentBalance() {
             )
 
             Text(
-                text = "R$ 1500.00",
+                text = "R$ %.2f".format(currentBalance),
                 modifier = Modifier.padding(16.dp),
                 textAlign = TextAlign.Center,
                 fontWeight = FontWeight.Bold
